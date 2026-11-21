@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSON-to-UI Mockup Generator | Community Lite</title>
+    <title>JSON-to-UI Mockup Generator</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #141210; color: #FAFAF9; font-family: 'Inter', sans-serif; }
@@ -17,138 +17,77 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #292524; border-radius: 10px; }
     </style>
 </head>
-<body class="p-0 m-0 min-h-screen flex flex-col">
-    <!-- Top Announcement Bar -->
-    <aside class="w-full bg-amber/10 border-b border-amber/20 py-2.5 px-4 text-center">
-        <a href="https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github" target="_blank" rel="noopener noreferrer" class="text-xs font-mono font-medium text-amber hover:underline inline-flex items-center gap-1.5 transition">
-            <span>Community Lite Edition • Unlock Full Export &amp; Unlimited Processing &rarr;</span>
+<body class="p-4 md:p-8">
+    <!-- Community Lite Edition Top Bar -->
+    <div class="max-w-6xl mx-auto mb-4 bg-stone-900 border border-stone rounded-lg px-4 py-2.5 flex justify-between items-center text-xs">
+        <span class="text-stone-400 font-mono">Community Lite Edition • Max 50 nodes limit active</span>
+        <a href="https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github" target="_blank" class="text-amber hover:underline font-bold flex items-center gap-1">
+            Unlock Full Export & Unlimited Processing ->
         </a>
-    </aside>
+    </div>
 
-    <div class="p-4 md:p-8 flex-1">
-        <!-- Header Banner -->
-        <div class="max-w-6xl mx-auto mb-12 p-8 bg-charcoal border border-stone rounded-2xl shadow-2xl">
-            <div class="text-xs font-mono text-stone-500 mb-2 tracking-widest uppercase">Developer Tools • R&amp;D Division</div>
-            <h1 class="text-6xl font-black text-amber mb-4">JSON-to-UI Mockup Generator</h1>
-            <p class="text-xl text-stone-300 mb-6">Transform nested JSON into recursive HTML Cards, Tables &amp; Editable Forms</p>
-            <div class="flex flex-wrap gap-4 items-center">
-                <span class="px-4 py-1 bg-amber/10 text-amber border border-amber/20 rounded-full text-sm font-bold">Recursive Engine</span>
-                <span class="px-4 py-1 bg-stone-800 text-stone-400 border border-stone rounded-full text-sm font-medium">Free Tier: 3 Generations/Session</span>
-            </div>
+    <!-- Gumroad Cover Header -->
+    <div class="max-w-6xl mx-auto mb-12 p-8 bg-charcoal border border-stone rounded-2xl shadow-2xl">
+        <div class="text-xs font-mono text-stone-500 mb-2 tracking-widest uppercase">Developer Tools • Web Tools</div>
+        <h1 class="text-6xl font-black text-amber mb-4">JSON-to-UI Mockup Generator</h1>
+        <p class="text-xl text-stone-300 mb-6">Transform nested JSON into recursive HTML Cards, Tables & Editable Forms</p>
+        <div class="flex gap-4">
+            <span class="px-4 py-1 bg-amber/10 text-amber border border-amber/20 rounded-full text-sm font-bold">Single-File .html Export</span>
+            <span class="px-4 py-1 bg-terracotta/10 text-terracotta border border-terracotta/20 rounded-full text-sm font-bold">Recursive Engine</span>
         </div>
+    </div>
 
-        <div class="max-w-6xl mx-auto">
-            <header class="mb-8 border-b border-stone pb-4 flex justify-between items-center">
-                <div>
-                    <h2 class="text-2xl font-bold text-white">Live Workspace</h2>
-                </div>
-                <button onclick="loadSample()" class="bg-stone-800 hover:bg-stone-700 px-4 py-2 text-xs rounded border border-stone text-amber font-mono transition">Load Complex Sample</button>
-            </header>
-
-            <!-- Usage Limit Banner (Hidden by default) -->
-            <div id="limitBanner" class="hidden mb-6 p-4 rounded-xl bg-amber/10 border border-amber/30 text-amber flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div class="text-sm">
-                    <strong>Free Generation Limit Reached (3/3).</strong> Upgrade to Pro Edition to unlock unlimited generations and direct HTML export.
-                </div>
-                <a href="https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github" target="_blank" rel="noopener noreferrer" class="whitespace-nowrap px-4 py-2 bg-amber text-stone-900 rounded font-bold text-xs uppercase tracking-wide hover:bg-yellow-400 transition">
-                    Unlock Unlimited Pro
-                </a>
+    <div class="max-w-6xl mx-auto">
+        <header class="mb-8 border-b border-stone pb-4 flex justify-between items-center">
+            <div>
+                <h2 class="text-2xl font-bold text-white">Live Workspace</h2>
             </div>
+            <button onclick="loadSample()" class="bg-stone-800 hover:bg-stone-700 px-4 py-2 text-xs rounded border border-stone text-amber font-mono">Load Complex Sample</button>
+        </header>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div class="flex flex-col gap-4">
-                    <textarea id="jsonInput" class="w-full h-96 p-4 rounded-xl bg-charcoal border border-stone text-amber font-mono text-sm focus:ring-2 focus:ring-terracotta outline-none custom-scrollbar" placeholder="Paste your JSON here..."></textarea>
-                    <div class="flex flex-wrap sm:flex-nowrap gap-2">
-                        <select id="renderMode" class="bg-charcoal p-2 rounded border border-stone text-white text-sm outline-none" onchange="handleModeChange()">
-                            <option value="cards">Card View</option>
-                            <option value="table">Table View</option>
-                            <option value="form">Form View</option>
-                        </select>
-                        <button id="generateBtn" onclick="onGenerateClick()" class="flex-1 bg-terracotta hover:bg-orange-700 py-2 px-4 rounded font-bold transition text-white shadow-lg text-sm">Generate UI (<span id="genRemaining">3</span> left)</button>
-                        <button onclick="openProModal()" class="bg-stone-800 hover:bg-stone-700 px-4 py-2 rounded border border-stone text-sm font-semibold text-stone-300 flex items-center justify-center gap-1.5 transition">
-                            <span>🔒</span> Download .html
-                        </button>
-                    </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="flex flex-col gap-4">
+                <textarea id="jsonInput" class="w-full h-96 p-4 rounded-xl bg-charcoal border border-stone text-amber font-mono text-sm focus:ring-2 focus:ring-terracotta outline-none custom-scrollbar" placeholder="Paste your JSON here..."></textarea>
+                <div class="flex gap-2">
+                    <select id="renderMode" class="bg-charcoal p-2 rounded border border-stone text-white text-sm" onchange="generateUI()">
+                        <option value="cards">Card View</option>
+                        <option value="table">Table View</option>
+                        <option value="form">Form View</option>
+                    </select>
+                    <button onclick="generateUI()" class="flex-1 bg-terracotta hover:bg-orange-700 py-2 rounded font-bold transition text-white shadow-lg">Generate UI</button>
+                    <button onclick="openUpgradeModal()" class="bg-stone-800 hover:bg-stone-700 px-4 py-2 rounded border border-stone text-sm font-semibold flex items-center gap-1.5 text-stone-400">🔒 Download .html</button>
                 </div>
-                <div id="uiPreview" class="w-full h-[450px] p-6 rounded-xl bg-charcoal border border-stone overflow-auto custom-scrollbar">
-                    <p class="text-stone-500 italic">Preview will appear here...</p>
-                </div>
+            </div>
+            <div id="uiPreview" class="w-full h-[450px] p-6 rounded-xl bg-charcoal border border-stone overflow-auto custom-scrollbar">
+                <p class="text-stone-500 italic">Preview will appear here...</p>
             </div>
         </div>
     </div>
 
     <!-- Upgrade to Pro Modal -->
-    <div id="proModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-charcoal border border-stone max-w-md w-full p-6 rounded-2xl shadow-2xl relative">
-            <button onclick="closeProModal()" class="absolute top-4 right-4 text-stone-400 hover:text-white text-lg font-bold">&times;</button>
-            <div class="w-12 h-12 rounded-full bg-amber/10 border border-amber/30 text-amber flex items-center justify-center text-xl mb-4">
-                🔒
-            </div>
-            <h3 class="text-xl font-bold text-white mb-2">Upgrade to Pro Edition</h3>
-            <p class="text-sm text-stone-300 mb-6">
-                Single-file HTML export and unlimited real-time generation are exclusive to Pro license holders. Take full control of your workflow with no session caps.
-            </p>
-            <div class="space-y-3">
-                <a href="https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github" target="_blank" rel="noopener noreferrer" class="block w-full text-center bg-amber hover:bg-yellow-400 text-stone-900 font-bold py-3 px-4 rounded-xl transition text-sm">
-                    Get Pro License Now &rarr;
-                </a>
-                <button onclick="closeProModal()" class="w-full py-2.5 text-center text-xs text-stone-400 hover:text-stone-200 transition">
-                    Continue with Free Edition
-                </button>
-            </div>
+    <div id="upgradeModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-charcoal border border-stone rounded-2xl p-6 max-w-md w-full shadow-2xl relative text-center">
+            <button onclick="closeUpgradeModal()" class="absolute top-4 right-4 text-stone-400 hover:text-white text-lg font-bold">&times;</button>
+            <div class="text-3xl mb-2">🔒</div>
+            <h3 class="text-2xl font-bold text-amber mb-2">Upgrade to Pro Edition</h3>
+            <p class="text-stone-300 text-sm mb-6">Unlock unlimited node processing, standalone .html exports, and advanced developer capabilities instantly.</p>
+            <a href="https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github" target="_blank" class="block w-full py-3 bg-terracotta hover:bg-orange-700 text-white font-bold rounded-xl transition shadow-lg mb-3">
+                Unlock Pro Access
+            </a>
+            <button onclick="closeUpgradeModal()" class="text-xs text-stone-500 hover:text-stone-400 underline">Continue with Free Lite Version</button>
         </div>
     </div>
 
     <script>
         const sampleData = {
             "id": 101,
-            "company": "Nexus Systems",
+            "company": "Developer Tools",
             "metadata": { "founded": 2021, "location": "USA" },
             "projects": [{ "name": "JSON-to-UI Mockup Generator", "status": "Active" }]
         };
 
-        const MAX_GENERATIONS = 3;
-        let generationCount = 0;
-
-        window.onload = () => {
-            document.getElementById('jsonInput').value = JSON.stringify(sampleData, null, 2);
-            renderEngine();
-        };
-
-        function loadSample() {
-            document.getElementById('jsonInput').value = JSON.stringify(sampleData, null, 2);
-            renderEngine();
-        }
-
-        function onGenerateClick() {
-            if (generationCount >= MAX_GENERATIONS) {
-                enforceLimit();
-                return;
-            }
-            generationCount++;
-            const remaining = MAX_GENERATIONS - generationCount;
-            const remainingSpan = document.getElementById('genRemaining');
-            if (remainingSpan) remainingSpan.textContent = remaining;
-
-            renderEngine();
-
-            if (generationCount >= MAX_GENERATIONS) {
-                enforceLimit();
-            }
-        }
-
-        function enforceLimit() {
-            const btn = document.getElementById('generateBtn');
-            btn.disabled = true;
-            btn.classList.remove('bg-terracotta', 'hover:bg-orange-700');
-            btn.classList.add('bg-stone-800', 'text-stone-500', 'cursor-not-allowed');
-            btn.innerHTML = 'Generate UI (Limit Reached)';
-            document.getElementById('limitBanner').classList.remove('hidden');
-        }
-
-        function handleModeChange() {
-            renderEngine();
-        }
+        window.onload = () => { document.getElementById('jsonInput').value = JSON.stringify(sampleData, null, 2); generateUI(); };
+        function loadSample() { document.getElementById('jsonInput').value = JSON.stringify(sampleData, null, 2); generateUI(); }
 
         function renderCell(value) {
             if (value === null || typeof value !== 'object') return String(value);
@@ -164,34 +103,39 @@
             return `<div class="mb-2"><label class="text-[10px] uppercase text-stone-400">${key}</label><input type="text" value="${value}" class="w-full bg-stone-900 border border-stone p-1.5 rounded text-white text-sm"></div>`;
         }
 
-        function renderForm(data) {
-            return Object.entries(data).map(([k, v]) => renderFormValue(k, v)).join('');
-        }
+        function renderForm(data) { return Object.entries(data).map(([k, v]) => renderFormValue(k, v)).join(''); }
 
-        function renderCards(data) {
-            return Object.entries(data).map(([k, v]) => `<div class="p-2 border-b border-stone"><span class="text-[10px] text-stone-500">${k}</span><div class="text-sm text-amber">${v}</div></div>`).join('');
-        }
+        function renderCards(data) { return Object.entries(data).map(([k, v]) => `<div class="p-2 border-b border-stone"><span class="text-[10px] text-stone-500">${k}</span><div class="text-sm text-amber">${v}</div></div>`).join(''); }
 
-        function renderEngine() {
+        function generateUI() {
             const input = document.getElementById('jsonInput').value;
             const mode = document.getElementById('renderMode').value;
             try {
+                const linesCount = input.split('\n').length;
+                if (linesCount > 50) {
+                    document.getElementById('uiPreview').innerHTML = `<p class="text-red-400 font-semibold">⚠️ Freemium limit reached: Free tier supports up to 50 nodes/lines. Please unlock Pro for enterprise schemas.</p>`;
+                    return;
+                }
                 const data = JSON.parse(input);
                 const preview = document.getElementById('uiPreview');
                 if (mode === 'table') preview.innerHTML = renderTable(Array.isArray(data) ? data : [data]);
                 else if (mode === 'form') preview.innerHTML = renderForm(data);
                 else preview.innerHTML = renderCards(data);
-            } catch (e) {
-                document.getElementById('uiPreview').innerHTML = '<span class="text-red-400 font-mono text-sm">Error parsing JSON: Invalid format</span>';
-            }
+            } catch (e) { document.getElementById('uiPreview').innerHTML = "<p class='text-red-400'>Error parsing JSON schema</p>"; }
         }
 
-        function openProModal() {
-            document.getElementById('proModal').classList.remove('hidden');
+        function openUpgradeModal() {
+            document.getElementById('upgradeModal').classList.remove('hidden');
+            document.getElementById('upgradeModal').classList.add('flex');
         }
 
-        function closeProModal() {
-            document.getElementById('proModal').classList.add('hidden');
+        function closeUpgradeModal() {
+            document.getElementById('upgradeModal').classList.remove('flex');
+            document.getElementById('upgradeModal').classList.add('hidden');
+        }
+
+        function downloadPackage() {
+            openUpgradeModal();
         }
     </script>
 </body>
