@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSON-to-UI Mockup Generator</title>
+    <title>JSON-to-UI Lite | AutoMicro Labs</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #141210; color: #FAFAF9; font-family: 'Inter', sans-serif; }
@@ -18,21 +18,18 @@
     </style>
 </head>
 <body class="p-4 md:p-8">
-    <!-- Community Lite Edition Top Bar -->
-    <div class="max-w-6xl mx-auto mb-4 bg-stone-900 border border-stone rounded-lg px-4 py-2.5 flex justify-between items-center text-xs">
-        <span class="text-stone-400 font-mono">Community Lite Edition • Max 50 nodes limit active</span>
-        <a href="https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github" target="_blank" class="text-amber hover:underline font-bold flex items-center gap-1">
-            Unlock Full Export & Unlimited Processing ->
-        </a>
+    <!-- Top Banner -->
+    <div class="max-w-6xl mx-auto mb-4 p-3 bg-amber/10 border border-amber/20 rounded-xl text-amber text-xs text-center font-mono">
+        Free Demo Edition (Preloaded Sample Only) — <a href="https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github" target="_blank" class="underline font-bold hover:text-white">Unlock Full Features &amp; Custom Input in Pro Edition &rarr;</a>
     </div>
 
     <!-- Gumroad Cover Header -->
     <div class="max-w-6xl mx-auto mb-12 p-8 bg-charcoal border border-stone rounded-2xl shadow-2xl">
-        <div class="text-xs font-mono text-stone-500 mb-2 tracking-widest uppercase">Developer Tools • Web Tools</div>
-        <h1 class="text-6xl font-black text-amber mb-4">JSON-to-UI Mockup Generator</h1>
-        <p class="text-xl text-stone-300 mb-6">Transform nested JSON into recursive HTML Cards, Tables & Editable Forms</p>
+        <div class="text-xs font-mono text-stone-500 mb-2 tracking-widest uppercase">AutoMicro Labs • R&amp;D Division • Cycle 4</div>
+        <h1 class="text-6xl font-black text-amber mb-4">JSON-to-UI Lite</h1>
+        <p class="text-xl text-stone-300 mb-6">Transform nested JSON into HTML Cards</p>
         <div class="flex gap-4">
-            <span class="px-4 py-1 bg-amber/10 text-amber border border-amber/20 rounded-full text-sm font-bold">Single-File .html Export</span>
+            <span class="px-4 py-1 bg-amber/10 text-amber border border-amber/20 rounded-full text-sm font-bold">Free Demo Edition</span>
             <span class="px-4 py-1 bg-terracotta/10 text-terracotta border border-terracotta/20 rounded-full text-sm font-bold">Recursive Engine</span>
         </div>
     </div>
@@ -47,15 +44,12 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div class="flex flex-col gap-4">
-                <textarea id="jsonInput" class="w-full h-96 p-4 rounded-xl bg-charcoal border border-stone text-amber font-mono text-sm focus:ring-2 focus:ring-terracotta outline-none custom-scrollbar" placeholder="Paste your JSON here..."></textarea>
+                <textarea id="jsonInput" readonly class="w-full h-96 p-4 rounded-xl bg-charcoal border border-stone text-amber font-mono text-sm focus:ring-2 focus:ring-terracotta outline-none custom-scrollbar" placeholder="Preloaded JSON sample only..."></textarea>
                 <div class="flex gap-2">
-                    <select id="renderMode" class="bg-charcoal p-2 rounded border border-stone text-white text-sm" onchange="generateUI()">
+                    <select id="renderMode" class="bg-charcoal p-2 rounded border border-stone text-white text-sm">
                         <option value="cards">Card View</option>
-                        <option value="table">Table View</option>
-                        <option value="form">Form View</option>
                     </select>
                     <button onclick="generateUI()" class="flex-1 bg-terracotta hover:bg-orange-700 py-2 rounded font-bold transition text-white shadow-lg">Generate UI</button>
-                    <button onclick="openUpgradeModal()" class="bg-stone-800 hover:bg-stone-700 px-4 py-2 rounded border border-stone text-sm font-semibold flex items-center gap-1.5 text-stone-400">🔒 Download .html</button>
                 </div>
             </div>
             <div id="uiPreview" class="w-full h-[450px] p-6 rounded-xl bg-charcoal border border-stone overflow-auto custom-scrollbar">
@@ -64,79 +58,87 @@
         </div>
     </div>
 
-    <!-- Upgrade to Pro Modal -->
-    <div id="upgradeModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
-        <div class="bg-charcoal border border-stone rounded-2xl p-6 max-w-md w-full shadow-2xl relative text-center">
-            <button onclick="closeUpgradeModal()" class="absolute top-4 right-4 text-stone-400 hover:text-white text-lg font-bold">&times;</button>
-            <div class="text-3xl mb-2">🔒</div>
-            <h3 class="text-2xl font-bold text-amber mb-2">Upgrade to Pro Edition</h3>
-            <p class="text-stone-300 text-sm mb-6">Unlock unlimited node processing, standalone .html exports, and advanced developer capabilities instantly.</p>
-            <a href="https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github" target="_blank" class="block w-full py-3 bg-terracotta hover:bg-orange-700 text-white font-bold rounded-xl transition shadow-lg mb-3">
-                Unlock Pro Access
-            </a>
-            <button onclick="closeUpgradeModal()" class="text-xs text-stone-500 hover:text-stone-400 underline">Continue with Free Lite Version</button>
-        </div>
-    </div>
-
     <script>
         const sampleData = {
             "id": 101,
-            "company": "Developer Tools",
+            "company": "AutoMicro Labs",
             "metadata": { "founded": 2021, "location": "USA" },
-            "projects": [{ "name": "JSON-to-UI Mockup Generator", "status": "Active" }]
+            "projects": [{ "name": "JSON-to-UI Pro", "status": "Active" }]
         };
+
+        let liteRunCount = 0;
 
         window.onload = () => { document.getElementById('jsonInput').value = JSON.stringify(sampleData, null, 2); generateUI(); };
         function loadSample() { document.getElementById('jsonInput').value = JSON.stringify(sampleData, null, 2); generateUI(); }
 
-        function renderCell(value) {
-            if (value === null || typeof value !== 'object') return String(value);
-            return `<table class="w-full border-collapse border border-stone text-xs"><tbody>${Object.entries(value).map(([k, v]) => `<tr><td class="p-1 font-bold text-amber border border-stone">${k}</td><td class="p-1 border border-stone">${renderCell(v)}</td></tr>`).join('')}</tbody></table>`;
+        function renderCards(data) { 
+            return Object.entries(data).slice(0, 2).map(([k, v]) => `<div class="p-2 border-b border-stone"><span class="text-[10px] text-stone-500">${k}</span><div class="text-sm text-amber">${typeof v === 'object' ? JSON.stringify(v) : v}</div></div>`).join(''); 
         }
-
-        function renderTable(data) {
-            const keys = Array.from(new Set(data.flatMap(item => Object.keys(item))));
-            return `<table class="w-full text-left border-collapse border border-stone text-sm"><thead><tr class="bg-stone-900">${keys.map(k => `<th class="p-2 border border-stone text-amber">${k}</th>`).join('')}</tr></thead><tbody>${data.map(row => `<tr>${keys.map(k => `<td class="p-2 border border-stone">${renderCell(row[k])}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
-        }
-
-        function renderFormValue(key, value) {
-            return `<div class="mb-2"><label class="text-[10px] uppercase text-stone-400">${key}</label><input type="text" value="${value}" class="w-full bg-stone-900 border border-stone p-1.5 rounded text-white text-sm"></div>`;
-        }
-
-        function renderForm(data) { return Object.entries(data).map(([k, v]) => renderFormValue(k, v)).join(''); }
-
-        function renderCards(data) { return Object.entries(data).map(([k, v]) => `<div class="p-2 border-b border-stone"><span class="text-[10px] text-stone-500">${k}</span><div class="text-sm text-amber">${v}</div></div>`).join(''); }
 
         function generateUI() {
+            liteRunCount++;
+            const preview = document.getElementById('uiPreview');
+            if (liteRunCount > 2) {
+                preview.innerHTML = `
+                    <div class="text-center py-8">
+                        <p class="text-amber font-bold mb-2">Session Limit Reached</p>
+                        <p class="text-stone-400 text-sm mb-4">You have reached the maximum 2 generations for this demo session.</p>
+                        <a href="https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github" target="_blank" class="inline-block bg-terracotta hover:bg-orange-700 text-white font-bold py-2 px-4 rounded text-sm transition">Unlock Pro Edition &rarr;</a>
+                    </div>
+                `;
+                return;
+            }
             const input = document.getElementById('jsonInput').value;
-            const mode = document.getElementById('renderMode').value;
             try {
-                const linesCount = input.split('\n').length;
-                if (linesCount > 50) {
-                    document.getElementById('uiPreview').innerHTML = `<p class="text-red-400 font-semibold">⚠️ Freemium limit reached: Free tier supports up to 50 nodes/lines. Please unlock Pro for enterprise schemas.</p>`;
-                    return;
-                }
                 const data = JSON.parse(input);
-                const preview = document.getElementById('uiPreview');
-                if (mode === 'table') preview.innerHTML = renderTable(Array.isArray(data) ? data : [data]);
-                else if (mode === 'form') preview.innerHTML = renderForm(data);
-                else preview.innerHTML = renderCards(data);
-            } catch (e) { document.getElementById('uiPreview').innerHTML = "<p class='text-red-400'>Error parsing JSON schema</p>"; }
-        }
-
-        function openUpgradeModal() {
-            document.getElementById('upgradeModal').classList.remove('hidden');
-            document.getElementById('upgradeModal').classList.add('flex');
-        }
-
-        function closeUpgradeModal() {
-            document.getElementById('upgradeModal').classList.remove('flex');
-            document.getElementById('upgradeModal').classList.add('hidden');
-        }
-
-        function downloadPackage() {
-            openUpgradeModal();
+                preview.innerHTML = renderCards(data);
+            } catch (e) { preview.innerHTML = "Error parsing JSON"; }
         }
     </script>
+
+<style id="lite-anticopy-shield-css">
+  html, body, body * { -webkit-user-select: none !important; -moz-user-select: none !important; -ms-user-select: none !important; user-select: none !important; -webkit-touch-callout: none !important; }
+  body * { pointer-events: none !important; }
+  button, a, select, summary, input[type="radio"], input[type="checkbox"], [role="tab"], [data-lite-allow], #lite-copy-toast, #lite-copy-toast * { pointer-events: auto !important; }
+  #lite-copy-toast { position: fixed; bottom: 22px; right: 22px; z-index: 999999; background: #0f172a; color: #f8fafc; border: 1px solid #38bdf8; border-radius: 10px; padding: 12px 18px; font-family: system-ui, -apple-system, sans-serif; font-size: 13px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); display: none; align-items: center; gap: 12px; }
+  #lite-copy-toast a { color: #38bdf8; font-weight: 700; text-decoration: underline; }
+</style>
+<div id="lite-copy-toast">
+  <span>Selection, right-click &amp; copying are disabled in the Free Demo.</span>
+  <a href="https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github" target="_blank" rel="noopener">Get Full Pro Edition &rarr;</a>
+</div>
+<script id="lite-anticopy-shield">
+(function() {
+  var toastTimer = null;
+  function mostrarAviso() {
+    var t = document.getElementById("lite-copy-toast");
+    if (!t) return;
+    t.style.display = "flex";
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function() { t.style.display = "none"; }, 3600);
+  }
+  document.addEventListener("contextmenu", function(e) { e.preventDefault(); mostrarAviso(); }, true);
+  document.addEventListener("selectstart", function(e) { e.preventDefault(); }, true);
+  document.addEventListener("copy", function(e) { e.preventDefault(); if (e.clipboardData) e.clipboardData.setData("text/plain", "Full Pro Edition: https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github"); mostrarAviso(); }, true);
+  document.addEventListener("cut", function(e) { e.preventDefault(); mostrarAviso(); }, true);
+  document.addEventListener("keydown", function(e) {
+    var ctrl = e.ctrlKey || e.metaKey, key = (e.key || "").toLowerCase();
+    if (e.key === "F12" || (ctrl && (key === "u" || key === "s" || key === "c" || key === "a" || key === "x")) || (ctrl && e.shiftKey && (key === "i" || key === "j" || key === "c"))) { e.preventDefault(); mostrarAviso(); }
+  }, true);
+  var TIPOS = ["", "text", "number", "search", "email", "url", "tel", "password", "date"];
+  function esTexto(el) { return el && (el.tagName === "TEXTAREA" || (el.tagName === "INPUT" && TIPOS.indexOf((el.getAttribute("type") || "").toLowerCase()) !== -1)); }
+  function bloquear() {
+    var cs = document.querySelectorAll("textarea, input");
+    for (var i = 0; i < cs.length; i++) if (esTexto(cs[i])) { cs[i].readOnly = true; cs[i].setAttribute("readonly", "readonly"); }
+  }
+  bloquear();
+  if (window.MutationObserver) new MutationObserver(bloquear).observe(document.documentElement, { childList: true, subtree: true });
+  ["paste", "drop", "dragover", "dragenter", "beforeinput"].forEach(function(n) { document.addEventListener(n, function(e) { e.preventDefault(); if (n === "paste") mostrarAviso(); }, true); });
+  document.addEventListener("keydown", function(e) { if (esTexto(e.target) && e.key !== "Tab") e.preventDefault(); }, true);
+  try { document.execCommand = function() { return false; }; } catch (err) {}
+  try { if (navigator.clipboard) navigator.clipboard.writeText = function() { return Promise.reject(new Error("disabled")); }; } catch (err) {}
+})();
+</script>
+
 </body>
 </html>
