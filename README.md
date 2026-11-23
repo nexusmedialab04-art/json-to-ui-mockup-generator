@@ -1,36 +1,53 @@
 # JSON-to-UI Mockup Generator
 
-![Live Demo](https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80)
+> 100% Local Browser Tool • Single-File Export • Zero Subscriptions
 
-A high-performance, 100% client-side browser tool that instantly transforms arbitrary JSON payloads and schemas into interactive, responsive UI mockups. Designed for frontend engineers, backend developers, and product designers who need rapid prototyping without setup overhead.
-
-🔗 **[Try the Free Live Demo](https://nexusmedialab04-art.github.io/json-to-ui-mockup-generator/)**
+JSON-to-UI Mockup Generator transforms structured raw JSON into interactive UI mockups instantly. Built for developers, technical product managers, and UI designers who need immediate visual feedback without writing frontend layout boilerplate.
 
 ---
 
-## Features
+## Full Pro Edition Preview
 
-- **100% Local Execution:** Runs entirely inside your browser using native Web APIs. Zero external data transmission or server-side logging.
-- **Single-File Export:** Export your generated interface as a self-contained, lightweight HTML file ready for review or deployment.
-- **Automatic Type Inference:** Intuitively maps strings, integers, booleans, arrays, and nested objects to clean UI elements (forms, cards, grids, tables).
-- **Zero Subscriptions:** Use it freely whenever you need it.
+![Full Pro Edition Preview](demo_pro.gif)
 
----
-
-## Free Lite Edition vs Full Pro Edition
-
-| Feature | Free Lite Edition | Full Pro Edition |
-| :--- | :---: | :---: |
-| **Execution Environment** | Browser (Client-Side) | Offline Standalone Application |
-| **JSON Schema Parsing** | Standard Types | Advanced Nested AST Parsing |
-| **Single-File Export** | Basic HTML/CSS | Optimized Production-Ready Bundles |
-| **Custom Templates** | ❌ | ✅ |
-| **Commercial License** | Personal / Evaluation | Full Commercial Rights |
-
+Get the complete tool with full view options and standalone HTML exports:
 👉 **[Get the Full Offline Pro Edition](https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github)**
 
 ---
 
-## LEGAL_DISCLAIMER
+## Free Live Demo Preview
 
-This software is provided "as is", without warranty of any kind, express or implied. By using this tool, you agree that the authors are not liable for any claims, damages, or liabilities arising from the use of the software.
+![Free Live Demo Preview](demo_lite.gif)
+
+Test the instant card view rendering directly in your browser:
+👉 **[Try the Free Live Demo](https://nexusmedialab04-art.github.io/json-to-ui-mockup-generator/)**
+
+---
+
+## Free Demo vs Full Pro Edition
+
+| Feature | Free Demo (Lite) | Full Pro Edition |
+| :--- | :---: | :---: |
+| **Workspace Section** | JSON-to-UI Lite | JSON-to-UI Pro |
+| **Client-Side Processing** | Yes | Yes |
+| **Load Complex Sample Button** | Yes | Yes |
+| **Generate UI Button** | Yes | Yes |
+| **Card View Mode** | Yes | Yes |
+| **Table View Mode** | No | Yes |
+| **Form View Mode** | No | Yes |
+| **Download .html Export** | No | Yes |
+
+---
+
+## How to Use
+
+1. **Paste JSON or Load Sample**: Click `Load Complex Sample` to test standard structured data.
+2. **Select Layout Mode**: Choose `Card View` (or switch to `Table View` / `Form View` in Pro).
+3. **Generate UI**: Click `Generate UI` to render components inside the Live Workspace.
+4. **Export (Pro)**: Click `Download .html` to save a self-contained output file for distribution or presentation.
+
+---
+
+## License & Legal
+
+Please see `LEGAL_DISCLAIMER` for license information and terms of usage.
